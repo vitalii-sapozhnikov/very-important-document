@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="uk">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Будеш моєю Валентинкою?</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="hearts">
+      <span></span><span></span><span></span><span></span><span></span>
+      <span></span><span></span><span></span><span></span><span></span>
+    </div>
+
+    <main class="shell">
+      <section class="prompt-card" id="promptCard" aria-live="polite">
+        <p class="tag">Маю для тебе пропозицію, від якої <b>важко</b> відмовитися</p>
+        <h1>Будеш моєю Валентинкою?</h1>
+        <p class="subtitle">
+          Рожеве небо, блискучі сердечка і дуже серйозне питання!
+        </p>
+
+        <div class="button-area" id="buttonArea">
+          <button class="btn yes" id="yesBtn" type="button">
+            Так, звісно!
+          </button>
+          <button class="btn no" id="noBtn" type="button" aria-label="Ні">
+            Ні
+          </button>
+        </div>
+
+        <p class="nudge is-hidden" id="nudgeText"></p>
+
+        <p class="hint">Підказка: кнопка «Ні» дуже сором’язлива.</p>
+      </section>
+
+      <section class="celebration hidden" id="celebration" aria-hidden="true">
+        <canvas id="fireworks" aria-hidden="true"></canvas>
+        <div class="celebration-content">
+          <p class="tag">Місію виконано</p>
+          <h2>Ура! Ти сказала «так»!</h2>
+          <p class="subtitle">
+            Час феєрверків, конфетті та галереї наших найніжніших моментів.
+          </p>
+
+          <div class="photo-grid">
+            <article class="photo-card">
+              <img
+                src="img/IMG_20260213_215823_420.jpg"
+                alt="Плейсхолдер фото 1"
+              />
+              <div class="card-text">
+                <h3>Фото 01</h3>
+                <p>Перевіряю, чи б’ється серце, чи він просто замерз.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img
+                src="img/IMG_20260213_215824_302.jpg"
+                alt="Плейсхолдер фото 2"
+              />
+              <div class="card-text">
+                <h3>Фото 02</h3>
+                <p>Ти затьмарюєш сонце, але я не проти осліпнути від цієї краси.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img
+                src="img/IMG_20260213_215823_577.jpg"
+                alt="Плейсхолдер фото 3"
+              />
+              <div class="card-text">
+                <h3>Фото 03</h3>
+                <p>На вулиці мінус, а між нами іскри, що плавлять сніг.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img
+                src="img/IMG_20260213_215824_188.jpg"
+                alt="Плейсхолдер фото 4"
+              />
+              <div class="card-text">
+                <h3>Фото 04</h3>
+                <p>Коли я серйозний чоловік, але заради тебе одягну навіть це.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img
+                src="img/IMG_20260213_215823_689.jpg"
+                alt="Плейсхолдер фото 5"
+              />
+              <div class="card-text">
+                <h3>Фото 05</h3>
+                <p>Обережно, занадто мила пара!</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img
+                src="img/IMG_20260213_215823_891.jpg"
+                alt="Плейсхолдер фото 6"
+              />
+              <div class="card-text">
+                <h3>Фото 06</h3>
+                <p>Ми тут головна архітектурна пам'ятка вечора.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img src="img/IMG_20260213_215824_065.jpg" alt="Плейсхолдер фото 7" />
+              <div class="card-text">
+                <h3>Фото 07</h3>
+                <p>В очікуванні їжі ми особливо милі та слухняні.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img src="img/IMG_20260213_215823_913.jpg" alt="Плейсхолдер фото 8" />
+              <div class="card-text">
+                <h3>Фото 08</h3>
+                <p>Шлях до серця лежить через спільний "кусь".</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img src="img/IMG_20260213_215823_809.jpg" alt="Плейсхолдер фото 9" />
+              <div class="card-text">
+                <h3>Фото 09</h3>
+                <p>Зачіска від вітру, усмішка — від кохання.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img src="img/IMG_20260213_215823_738.jpg" alt="Плейсхолдер фото 10" />
+              <div class="card-text">
+                <h3>Фото 10</h3>
+                <p>Той момент, коли рівень адреналіну такий же високий, як і рівень кохання.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img src="img/IMG_20260213_215823_893.jpg" alt="Плейсхолдер фото 11" />
+              <div class="card-text">
+                <h3>Фото 11</h3>
+                <p>Я у сукні, він у футболці, поні у шоці. Ідилія.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img src="img/IMG_20260213_215824_029.jpg" alt="Плейсхолдер фото 12" />
+              <div class="card-text">
+                <h3>Фото 12</h3>
+                <p>Здається, ідеальна вечірка виглядає саме так.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img src="img/IMG_20260213_215823_719.jpg" alt="Плейсхолдер фото 13" />
+              <div class="card-text">
+                <h3>Фото 13</h3>
+                <p>За спиною — все місто, попереду — ціле життя</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img src="img/IMG_20260213_215824_464.jpg" alt="Плейсхолдер фото 14" />
+              <div class="card-text">
+                <h3>Фото 14</h3>
+                <p>Сонце, трава і "рюкзак", який завжди зі мною (це я про тебе на моїй спині).</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img src="img/IMG_20260213_215824_425.jpg" alt="Плейсхолдер фото 15" />
+              <div class="card-text">
+                <h3>Фото 15</h3>
+                <p>Той випадок, коли хочеться поставити час на паузу.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img src="img/IMG_20260213_215824_090.jpg" alt="Плейсхолдер фото 16" />
+              <div class="card-text">
+                <h3>Фото 16</h3>
+                <p>Колекціонуємо міста, магнітики і щасливі спогади.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img src="img/IMG_20260213_215824_025.jpg" alt="Плейсхолдер фото 17" />
+              <div class="card-text">
+                <h3>Фото 17</h3>
+                <p>Коли ми такі красиві, здається, що навіть фокус камери соромиться.</p>
+              </div>
+            </article>
+
+            <article class="photo-card">
+              <img src="img/IMG_20260213_215823_713.jpg" alt="Плейсхолдер фото 18" />
+              <div class="card-text">
+                <h3>Фото 18</h3>
+                <p>Заряджаємося сонцем і одне одним. Рівень заряду: 100%.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section class="gallery-modal hidden" id="galleryModal" aria-hidden="true">
+        <button class="gallery-close" id="galleryClose" type="button" aria-label="Закрити">
+          ✕
+        </button>
+        <button class="gallery-nav prev" id="galleryPrev" type="button" aria-label="Попереднє фото">
+          ‹
+        </button>
+        <figure class="gallery-figure">
+          <img id="galleryImage" src="" alt="" />
+          <figcaption class="gallery-caption">
+            <h3 id="galleryTitle"></h3>
+            <p id="galleryDescription"></p>
+          </figcaption>
+        </figure>
+        <button class="gallery-nav next" id="galleryNext" type="button" aria-label="Наступне фото">
+          ›
+        </button>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
