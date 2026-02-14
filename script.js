@@ -14,6 +14,11 @@ const galleryDescription = document.getElementById("galleryDescription");
 const galleryPrev = document.getElementById("galleryPrev");
 const galleryNext = document.getElementById("galleryNext");
 const galleryClose = document.getElementById("galleryClose");
+const celebrationSound = document.getElementById("celebrationSound");
+const bonusBtn = document.getElementById("bonusBtn");
+const bonusModal = document.getElementById("bonusModal");
+const bonusClose = document.getElementById("bonusClose");
+const bonusVideo = document.getElementById("bonusVideo");
 
 const particles = [];
 let animationFrameId = null;
@@ -27,6 +32,7 @@ let pointerY = null;
 let activePhotoIndex = 0;
 let noBtnX = 24;
 let noBtnY = 24;
+let audioContext = null;
 
 const colors = ["#ff4b92", "#ff6aa8", "#ffd166", "#ff9ecb", "#ffffff"];
 
@@ -37,6 +43,89 @@ const resizeCanvas = () => {
 
 const randomBetween = (min, max) => Math.random() * (max - min) + min;
 const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
+
+const getAudioContext = () => {
+  if (audioContext) return audioContext;
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+  if (!AudioCtx) return null;
+  audioContext = new AudioCtx();
+  return audioContext;
+};
+
+const playHurrayFireworkSound = () => {
+  const ctxAudio = getAudioContext();
+  if (!ctxAudio) return;
+
+  if (ctxAudio.state === "suspended") {
+    ctxAudio.resume();
+  }
+
+  const now = ctxAudio.currentTime;
+  const master = ctxAudio.createGain();
+  master.gain.setValueAtTime(0.0001, now);
+  master.gain.exponentialRampToValueAtTime(0.24, now + 0.05);
+  master.gain.exponentialRampToValueAtTime(0.0001, now + 1.7);
+  master.connect(ctxAudio.destination);
+
+  const makeTone = (frequency, start, duration) => {
+    const osc = ctxAudio.createOscillator();
+    const gain = ctxAudio.createGain();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(frequency, start);
+    osc.frequency.exponentialRampToValueAtTime(frequency * 1.6, start + duration);
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.exponentialRampToValueAtTime(0.2, start + 0.03);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+    osc.connect(gain);
+    gain.connect(master);
+    osc.start(start);
+    osc.stop(start + duration);
+  };
+
+  makeTone(420, now + 0.02, 0.32);
+  makeTone(530, now + 0.2, 0.34);
+  makeTone(660, now + 0.42, 0.36);
+
+  const burstTimes = [0.18, 0.5, 0.82, 1.1];
+  burstTimes.forEach((offset) => {
+    const sampleRate = ctxAudio.sampleRate;
+    const length = Math.floor(sampleRate * 0.22);
+    const buffer = ctxAudio.createBuffer(1, length, sampleRate);
+    const data = buffer.getChannelData(0);
+    for (let i = 0; i < length; i += 1) {
+      data[i] = (Math.random() * 2 - 1) * (1 - i / length);
+    }
+
+    const source = ctxAudio.createBufferSource();
+    const filter = ctxAudio.createBiquadFilter();
+    const gain = ctxAudio.createGain();
+    source.buffer = buffer;
+    filter.type = "bandpass";
+    filter.frequency.setValueAtTime(randomBetween(900, 1800), now + offset);
+    gain.gain.setValueAtTime(0.0001, now + offset);
+    gain.gain.exponentialRampToValueAtTime(0.13, now + offset + 0.015);
+    gain.gain.exponentialRampToValueAtTime(0.0001, now + offset + 0.22);
+
+    source.connect(filter);
+    filter.connect(gain);
+    gain.connect(master);
+    source.start(now + offset);
+    source.stop(now + offset + 0.23);
+  });
+};
+
+const playCelebrationSound = () => {
+  if (!celebrationSound) {
+    playHurrayFireworkSound();
+    return;
+  }
+
+  celebrationSound.currentTime = 0;
+  celebrationSound.volume = 0.85;
+  celebrationSound.play().catch(() => {
+    playHurrayFireworkSound();
+  });
+};
 
 const getNoButtonBounds = () => {
   const rect = noBtn.getBoundingClientRect();
@@ -240,6 +329,7 @@ const enableNoButtonDodge = () => {
 };
 
 const startCelebration = () => {
+  playCelebrationSound();
   celebration.classList.remove("hidden");
   celebration.setAttribute("aria-hidden", "false");
   celebration.scrollTop = 0;
@@ -253,7 +343,7 @@ const startCelebration = () => {
     cancelAnimationFrame(animationFrameId);
   }
   lastFirework = 0;
-  celebrationEndTime = performance.now() + 2600;
+  celebrationEndTime = performance.now() + 5500;
   animationFrameId = requestAnimationFrame(animateFireworks);
 };
 
@@ -278,6 +368,26 @@ const openGallery = (index) => {
   galleryModal.classList.remove("hidden");
   galleryModal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
+};
+
+const openBonusModal = () => {
+  if (!bonusModal) return;
+  bonusModal.classList.remove("hidden");
+  bonusModal.setAttribute("aria-hidden", "false");
+  if (bonusVideo) {
+    bonusVideo.currentTime = 0;
+    bonusVideo.play().catch(() => {});
+  }
+};
+
+const closeBonusModal = () => {
+  if (!bonusModal) return;
+  bonusModal.classList.add("hidden");
+  bonusModal.setAttribute("aria-hidden", "true");
+  if (bonusVideo) {
+    bonusVideo.pause();
+    bonusVideo.currentTime = 0;
+  }
 };
 
 const closeGallery = () => {
@@ -311,7 +421,28 @@ galleryModal.addEventListener("click", (event) => {
   }
 });
 
+if (bonusBtn) {
+  bonusBtn.addEventListener("click", openBonusModal);
+}
+
+if (bonusClose) {
+  bonusClose.addEventListener("click", closeBonusModal);
+}
+
+if (bonusModal) {
+  bonusModal.addEventListener("click", (event) => {
+    if (event.target === bonusModal) {
+      closeBonusModal();
+    }
+  });
+}
+
 window.addEventListener("keydown", (event) => {
+  if (!bonusModal.classList.contains("hidden") && event.key === "Escape") {
+    closeBonusModal();
+    return;
+  }
+
   if (galleryModal.classList.contains("hidden")) return;
 
   if (event.key === "ArrowRight") {

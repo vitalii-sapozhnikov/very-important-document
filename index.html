@@ -207,6 +207,17 @@
             </article>
           </div>
         </div>
+
+        <button class="bonus-btn" id="bonusBtn" type="button">Бонус</button>
+      </section>
+
+      <section class="bonus-modal hidden" id="bonusModal" aria-hidden="true">
+        <div class="bonus-dialog" role="dialog" aria-modal="true" aria-label="Бонус відео">
+          <button class="bonus-close" id="bonusClose" type="button" aria-label="Закрити бонус відео">
+            ✕
+          </button>
+          <video id="bonusVideo" controls preload="metadata" src="sponge-bob-m4.mp4"></video>
+        </div>
       </section>
 
       <section class="gallery-modal hidden" id="galleryModal" aria-hidden="true">
@@ -228,6 +239,12 @@
         </button>
       </section>
     </main>
+
+    <audio
+      id="celebrationSound"
+      src="dragon-studio-fireworks-13-419033.mp3"
+      preload="auto"
+    ></audio>
 
     <script src="script.js"></script>
   </body>
